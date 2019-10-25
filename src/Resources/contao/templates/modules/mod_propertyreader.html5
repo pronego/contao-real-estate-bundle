@@ -13,18 +13,25 @@
     <?php if ($this->logoPath): ?>
         <img class="swa-property-reader__logo" src="<?= $this->logoPath; ?>" alt="logo">
     <?php endif; ?>
-    <img class="swa-property-reader__image" src="<?= $this->imagePath; ?>" alt="Project image">
+    <!--img class="swa-property-reader__image" src="<?= $this->imagePath; ?>" alt="Project image"-->
+	
+    <?php if (count($this->sliderImagePaths) > 0) : ?>
+        <div class="swa-property-reader__slider">
+            <?php $this->insert('mod_imageslider', array('imagepaths' => $this->sliderImagePaths, 'imagelinks' => $this->sliderImageLinks)); ?>
+        </div>
+    <?php endif; ?>
+	
     <article class="swa-property-reader__description">
         <h3 class="swa-property-reader__description-heading"><?= $this->description_heading; ?></h3>
         <div class="swa-property-reader__description-text">
             <?= $this->description; ?>
         </div>
     </article>
-    <?php if (count($this->sliderImagePaths) > 0) : ?>
-        <div class="swa-property-reader__slider">
-            <?php $this->insert('mod_imageslider', array('imagepaths' => $this->sliderImagePaths, 'imagelinks' => $this->sliderImageLinks)); ?>
-        </div>
-    <?php endif; ?>
+	<!-- old slider position-->
+	<?php if($this->iframeContent != ''):?>
+	 <iframe class="swa-property-reader__pdf-slider" src="<?= $this->iframeContent ?>"></iframe> 
+    <?php endif;?>
+	
     <h2>Ausstattungsdetails</h2>
     <ul class="swa-property-reader__features">
         <?php foreach ($this->features as $feature) : ?>

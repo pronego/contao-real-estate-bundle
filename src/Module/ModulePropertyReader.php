@@ -77,6 +77,8 @@ class ModulePropertyReader extends Module
         }
         $this->Template->ddd_view = $objProperty->ddd_view;
         $this->Template->ddd_view_link = $objProperty->ddd_view_link;
+		
+		$this->Template->iframeContent = $objProperty->iframe_content;
 
         $this->Template->sliderImagePaths = $this->getImages($objProperty->slider_images);
 		$this->Template->sliderImageLinks = StringUtil::deserialize($objProperty->slider_links);

@@ -32,6 +32,16 @@
   justify-content: center;
   align-items: center;
 }
+.swa-property-reader__pdf-slider {
+  width: 85%;
+  height: 90vh;
+  display: block;
+  position: relative;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
 .swa-property-reader__3d-view {
   margin-top: 1.5em;
 }
