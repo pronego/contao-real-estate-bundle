@@ -1,5 +1,24 @@
 (() => {
     window.addEventListener("load", function () {
+		var quartier_el = $('.swa-property-reader__title');
+		var quartier = '';
+		
+		if(quartier_el.length > 0){
+			quartier = quartier_el[0].innerHTML;
+		}else{
+			quartier_el = $('.swa-apartment-reader__project-name');
+			if(quartier_el.length > 0){
+				quartier = quartier_el[0].innerHTML;
+			}
+		}
+		
+		if(quartier != ''){
+			quartier = quartier.replace(/\s+/g, '-')
+			$('.slider_'+quartier).remove();
+			const c = getSlideCount() - 1;
+			document.getElementById("swa-image-slider-footer").dataset.count = c.toString();	
+		}
+		
         const controlPrev = document.getElementById("swa-image-slider-footer__control--previous");
         const controlNext = document.getElementById("swa-image-slider-footer__control--next");
 
@@ -10,7 +29,7 @@
         controlNext.addEventListener("click", function () {
             changeSlide(1);
         });
-
+		
         initializeSlider();
     });
 
@@ -59,3 +78,4 @@
         }
     }
 })();
+
