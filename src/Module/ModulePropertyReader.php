@@ -81,7 +81,7 @@ class ModulePropertyReader extends Module
 		$this->Template->iframeContent = $objProperty->iframe_content;
 
         $this->Template->sliderImagePaths = $this->getImages($objProperty->slider_images);
-		$this->Template->sliderImageLinks = StringUtil::deserialize($objProperty->slider_links);
+		$this->Template->sliderImageLinks = (is_array(StringUtil::deserialize($objProperty->slider_links)) ? StringUtil::deserialize($objProperty->slider_links) : array());
 
         $objObjects = RealestateObjectsModel::findAllByPid($objProperty->id);
         if ($objObjects !== null) {

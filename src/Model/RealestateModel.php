@@ -14,10 +14,9 @@ class RealestateModel extends Model
 
     public static function findPublished()
     {
-        /*
-         * TODO: either implement some logic in here or just use findAll() instead
-         * of this method.
-         */
-        return static::findAll();
+		$t = static::$strTable;
+		
+		$arrColumns[] = "$t.published=?";
+		return static::findBy($arrColumns, array(1), array());
     }
 }
