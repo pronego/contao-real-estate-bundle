@@ -18,6 +18,7 @@
                 ?>
                 <?php if ($property->banner) : ?>
                     <aside class="swa-property-list__overlay"><?= $property->banner; ?></aside>
+					<div class="swa-property-list__overlay-box"></div>
                 <?php endif; ?>
                 <h1 class="swa-property-list__property-name"><?= $property->name; ?></h1>
                 <div class="swa-property-list__property-teaser"><?= $property->teaser; ?></div>
