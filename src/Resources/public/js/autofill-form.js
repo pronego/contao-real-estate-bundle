@@ -1,5 +1,7 @@
 $( document ).ready(function() {
 	
+	$('#contact_footer .ce_form input[name=wohnung]').replaceWith('<select name="wohnung"> </select>');
+	
 	if($('#contact_footer .ce_form').length >= 1 && $('.swa-apartment-reader__appartment-full-name').length >= 1){
 		$('#contact_footer .ce_form select[name=wohnung]').append('<option value="0" disabled selected>Wohnung auswählen...</option>');
 		var appartment = $('.swa-apartment-reader__appartment-full-name')[0].innerText;
