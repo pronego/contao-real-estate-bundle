@@ -17,6 +17,7 @@ class RealestateModel extends Model
 		$t = static::$strTable;
 		
 		$arrColumns[] = "$t.published=?";
-		return static::findBy($arrColumns, array(1), array());
+		$arrOptions['order'] = "$t.sorting";
+		return static::findBy($arrColumns, array(1), $arrOptions);
     }
 }

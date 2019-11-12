@@ -9,16 +9,23 @@ $GLOBALS['TL_DCA']['tl_realestate'] = [
         'sql' => [
             'keys' => [
                 'id' => 'primary',
+				'sorting' => 'index'
             ]
         ]
     ],
     'list' => [
-        'sorting' => [
+        'sorting' => [/*
             'mode' => 2,
             'fields' => ['name','address'],
             'headerFields' => ['name','address'],
             'flag' => 1,
-            'panelLayout' => 'debug;filter;sort,search,limit',
+            'panelLayout' => 'debug;filter;sort,search,limit',*/
+			'mode'                    => 5,
+			'flag'					  => 11,
+			'paste_button_callback'   => array('tl_realestate', 'pasteRealestate'),
+			'panelLayout' => 'debug;filter;search,limit',
+			'headerFields' => ['name','address'],
+			'fields' => ['sorting'],
         ],
         'label' => [
             'fields' => ['name','address'],
@@ -43,6 +50,14 @@ $GLOBALS['TL_DCA']['tl_realestate'] = [
                 'href' => 'act=copy',
                 'icon' => 'copy.gif',
             ],
+			'cut' => array
+			(
+				'label'               => array('verschieben', 'verschieben'),
+				'href'                => 'act=paste&amp;mode=cut',
+				'icon'                => 'cut.svg',
+				'attributes'          => 'onclick="Backend.getScrollOffset()"',
+				'button_callback'     => array('tl_realestate', 'cutRealestate')
+			),
             'delete' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_realestate']['delete'],
                 'href' => 'act=delete',
@@ -74,6 +89,14 @@ $GLOBALS['TL_DCA']['tl_realestate'] = [
         'tstamp' => [
             'sql' => "int(10) unsigned NOT NULL default '0'"
         ],
+		'sorting' => array
+		(
+			'sql'                     => "int(10) unsigned NOT NULL default '0'"
+		),
+		'pid' => array
+		(
+			'sql'                     => "int(10) unsigned NOT NULL default '0'"
+		),
         'name' => [
             'label' => &$GLOBALS['TL_LANG']['tl_realestate']['name'],
             'search' => true,
@@ -317,5 +340,57 @@ class tl_realestate extends Backend{
 		    $this->Database->prepare("UPDATE tl_realestate SET tstamp=". time() .", published='" . ($blnPublished ? '' : '1') . "' WHERE id=?")
 		        ->execute($intId);
 		    $this->createNewVersion('tl_realestate', $intId);
+	}
+	
+	/**
+	 * Return the paste button
+	 *
+	 * @param DataContainer $dc
+	 * @param array         $row
+	 * @param string        $table
+	 * @param boolean       $cr
+	 * @param array         $arrClipboard
+	 *
+	 * @return string
+	 */
+	public function pasteRealestate(DataContainer $dc, $row, $table, $cr, $arrClipboard=null)
+	{
+		$this->import('BackendUser', 'User');
+		
+		$imagePasteAfter = Image::getHtml('pasteafter.svg', sprintf($GLOBALS['TL_LANG'][$dc->table]['pasteafter'][1], $row['id']));
+
+		$objPage = $this->Database->prepare("SELECT * FROM tl_page WHERE id=?")
+								  ->limit(1)
+								  ->execute($row['pid']);
+		
+		$allowed = ($this->User->isAdmin || $this->User->hasAccess('tl_realestate::published', 'alexf'));
+
+		return !$allowed ? Image::getHtml('pasteafter_.svg').' ' : '<a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=1&amp;pid='.$row['id'].(!\is_array($arrClipboard['id']) ? '&amp;id='.$arrClipboard['id'] : '')).'" title="'.StringUtil::specialchars(sprintf($GLOBALS['TL_LANG'][$dc->table]['pasteafter'][1], $row['id'])).'" onclick="Backend.getScrollOffset()">'.$imagePasteAfter.'</a> ';
+		
+	}
+	
+	/**
+	 * Return the cut button
+	 *
+	 * @param array  $row
+	 * @param string $href
+	 * @param string $label
+	 * @param string $title
+	 * @param string $icon
+	 * @param string $attributes
+	 *
+	 * @return string
+	 */
+	public function cutRealestate($row, $href, $label, $title, $icon, $attributes)
+	{
+		$this->import('BackendUser', 'User');
+		
+		$objRealestate = $this->Database->prepare("SELECT * FROM tl_realestate WHERE id=?")
+								  ->limit(1)
+								  ->execute($row['id']);
+		
+		$allowed = ($this->User->isAdmin || $this->User->hasAccess('tl_realestate::published', 'alexf'));
+
+		return $allowed ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ' : Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
 	}
 }
