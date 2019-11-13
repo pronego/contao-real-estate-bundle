@@ -58,7 +58,7 @@ $GLOBALS['TL_DCA']['tl_realestate_apartments'] = [
     ],
     'palettes' => [
         '__selector__' => [],
-        'default' => '{data_legend},number,floor,roomcount,rooms,misc,area,availability;{details_legend},description,highlights;{features_legend},features_apartment,features_object,features_infrastructure;{image_legend},images,blueprints',
+        'default' => '{data_legend},number,floor,roomcount,rooms,misc,area,availability;{details_legend},description,highlights;{features_legend},features_apartment,features_object,features_infrastructure;{image_legend},images,blueprints;visible'
     ],
     // TODO add 'availability'
     'fields' => [
@@ -245,6 +245,14 @@ $GLOBALS['TL_DCA']['tl_realestate_apartments'] = [
 			'eval'                    => array('doNotCopy'=>true, 'submitOnChange' => true),
 			'sql'                     => "char(1) NOT NULL default '1'"
 		),
+		'visible' => array
+		(
+			'label'                   => array('Sichtbarkeit', 'Wohnung in der Liste ausgegraut und ohne Detailseite anzeigen.'),
+			'inputType'               => 'checkbox',
+			'sql'                     => "char(1) NOT NULL default '1'",
+			'eval'					  => array('tl_class' => 'clr w50')
+		),
+		
     ]
 ];
 

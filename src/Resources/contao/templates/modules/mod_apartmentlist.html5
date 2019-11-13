@@ -14,13 +14,14 @@
         </thead>
         <tbody>
         <?php foreach ($this->apartments as $apartment) : ?>
-            <tr class="swa-apartment-list__apartment">
-                <td class="clickable" onclick="window.location='<?= $this->jumpTo . "?items=" . $apartment['id']; ?>'"><?= $apartment['number']; ?></td>
-                <td class="clickable" onclick="window.location='<?= $this->jumpTo . "?items=" . $apartment['id']; ?>'"><?= $apartment['floor']; ?></td>
-                <td class="clickable" onclick="window.location='<?= $this->jumpTo . "?items=" . $apartment['id']; ?>'"><?= $apartment['roomcount']; ?></td>
-                <td class="clickable" onclick="window.location='<?= $this->jumpTo . "?items=" . $apartment['id']; ?>'"><?= $apartment['area']; ?></td>
-                <td class="clickable" onclick="window.location='<?= $this->jumpTo . "?items=" . $apartment['id']; ?>'"><?= $apartment['misc']; ?></td>
-                <td class="clickable swa-apartment-list__availability swa-apartment-list__availability--<?= $apartment['availability']; ?>" onclick="window.location='<?= $this->jumpTo . "?items=" . $apartment['id']; ?>'"><?= $GLOBALS['TL_LANG']['tl_realestate_apartments'][$apartment['availability']]; ?></td>
+		<?php $onClick = ($apartment['visible'] ? 'onclick="'."window.location='" . $this->jumpTo . "?items=" . $apartment['id']. "'" . '"' : '');?>
+            <tr class="swa-apartment-list__apartment <?= !$apartment['visible'] ? 'disabled' : ''?>">
+                <td class="<?= $apartment['visible'] ? 'clickable' : '' ?>" <?= $onClick?>><?= $apartment['number']; ?></td>
+                <td class="<?= $apartment['visible'] ? 'clickable' : '' ?>" <?= $onClick?>><?= $apartment['floor']; ?></td>
+                <td class="<?= $apartment['visible'] ? 'clickable' : '' ?>" <?= $onClick?>><?= $apartment['roomcount']; ?></td>
+                <td class="<?= $apartment['visible'] ? 'clickable' : '' ?>" <?= $onClick?>><?= $apartment['area']; ?></td>
+                <td class="<?= $apartment['visible'] ? 'clickable' : '' ?>" <?= $onClick?>><?= $apartment['misc']; ?></td>
+                <td class="<?= $apartment['visible'] ? 'clickable' : '' ?> swa-apartment-list__availability swa-apartment-list__availability--<?= $apartment['availability']; ?>" <?= $onClick?>><?= $GLOBALS['TL_LANG']['tl_realestate_apartments'][$apartment['availability']]; ?></td>
                 <td>
                     <?php foreach ($apartment['blueprint_paths'] as $blueprintPath) : ?>
                         <a href="<?= $blueprintPath; ?>" data-lightbox="">
