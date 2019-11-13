@@ -247,7 +247,7 @@ $GLOBALS['TL_DCA']['tl_realestate_apartments'] = [
 		),
 		'visible' => array
 		(
-			'label'                   => array('Sichtbarkeit', 'Wohnung in der Liste ausgegraut und ohne Detailseite anzeigen.'),
+			'label'                   => array('Sichtbar', 'Leer lassen, wenn die Wohnung in der Liste ausgegraut und ohne Detailseite anzeigt werden soll.'),
 			'inputType'               => 'checkbox',
 			'sql'                     => "char(1) NOT NULL default '1'",
 			'eval'					  => array('tl_class' => 'clr w50')
