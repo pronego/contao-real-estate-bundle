@@ -51,6 +51,7 @@ class ModuleApartmentReader extends Module
             $objPage->cache = 0;
             return '';
         }
+		
 
         return parent::generate();
     }
@@ -63,7 +64,13 @@ class ModuleApartmentReader extends Module
         /** @var PageModel $objPage */
         global $objPage;
 
-        $objApartment = RealestateApartmentsModel::findByIdOrAlias(Input::get('items'));
+        $objApartment = RealestateApartmentsModel::findPublishedByIdOrAlias(Input::get('items'));
+		
+		if (null === $objApartment)
+		{
+			throw new \CoreBundle\Exception\PageNotFoundException( 'Page not found: ' . \Environment::get('uri') );
+		}
+		
 
         $this->Template->back = $GLOBALS['TL_LANG']['tl_realestate_apartments']['goBack'];
         $this->Template->referer = 'javascript:history.go(-1)';

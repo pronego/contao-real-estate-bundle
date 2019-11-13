@@ -87,7 +87,7 @@ class ModulePropertyReader extends Module
         if ($objObjects !== null) {
             $arrTemp = array();
             foreach ($objObjects as $object) {
-                $objApartments = RealestateApartmentsModel::findAllByPid($object->id);
+                $objApartments = RealestateApartmentsModel::findPublishedByPid($object->id);
                 $arrTemp[$object->id] = $object->row();
                 if ($objApartments !== null) {
                     $arrTempApartments = array();
